@@ -1,29 +1,26 @@
-import { galleryItems } from "./gallery-items.js";
-// Change code below this line
+// Opisany w dokumentacji
+import SimpleLightbox from "simplelightbox";
+// Dodatkowy import stylów
+import "simplelightbox/dist/simple-lightbox.min.css";
 
-const galleries = document.querySelector(".gallery__item");
+// Change code below this line
+import { galleryItems } from './gallery-items.js';
+const galleries = document.querySelector(".gallery");
+galleries.style.gap = "25px";
 
 for (let i = 0; i < galleryItems.length; i++) {
-  const img = `<a class="gallery__link" href="${galleryItems[i].original}">
-  <img class="gallery__image"  
-  src="${galleryItems[i].preview}"  
-  data-source="${galleryItems[i].original}"
-  alt="${galleryItems[i].description}">`;
+  const img = `<li class="gallery__item" style="margin: 0"> 
+                    <a class="gallery__link" href="${galleryItems[i].original}">
+                            <img class="gallery__image" src="${galleryItems[i].preview}" alt="${galleryItems[i].description}" />
+                    </a>
+                </li>`;
   galleries.insertAdjacentHTML("afterbegin", img);
 }
 
-const imagePress = (e) => {
-  e.preventDefault();
-  const instance = basicLightbox.create(
-    `<img width="90vw" height="90wh" src="${e.target.dataset.source}">`
-  );
-  instance.show();
-  const close = document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      instance.close();
-      document.removeEventListener("keydown", close);
-    }
-  });
-};
 
-galleries.addEventListener("click", imagePress);
+new SimpleLightbox(".gallery__item a", {
+  captions: true,
+  captionsData: "alt",
+  captionPosition: "bottom",
+  captionDelay: 250,
+});

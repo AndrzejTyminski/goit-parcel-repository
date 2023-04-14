@@ -4,20 +4,15 @@ const storageBox = 'feedback-form-state';
 const formData = {};
 const formRef = document.querySelector('.feedback-form');
 
-formRef.addEventListener('input', throttle(handleFormInput, 500));
-formRef.addEventListener('submit', handleFormSubmit);
-
-populateTextarea();
-
-function handleFormInput(e) {
+const formInput = e => {
   console.log(e.target.name);
   console.log(e.target.value);
   formData[e.target.name] = e.target.value;
   console.log(formData);
   localStorage.setItem(storageBox, JSON.stringify(formData));
-}
+};
 
-function handleFormSubmit(e) {
+const formSubmit = e => {
   e.preventDefault();
   const { email, message } = e.target.elements;
   if (!(email.value && message.value)) {
@@ -27,9 +22,9 @@ function handleFormSubmit(e) {
   console.log({ email: email.value, message: message.value });
   e.currentTarget.reset();
   localStorage.removeItem(storageBox);
-}
+};
 
-function populateTextarea() {
+const textarea = () => {
   const savedDataForm = localStorage.getItem(storageBox);
   if (savedDataForm === null) {
     return;
@@ -41,4 +36,7 @@ function populateTextarea() {
     formRef.elements[name].value = value;
     formData[name] = value;
   }
-}
+};
+textarea();
+formRef.addEventListener('input', throttle(formInput, 500));
+formRef.addEventListener('submit', formSubmit);

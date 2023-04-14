@@ -16,7 +16,7 @@ const formSubmit = e => {
   e.preventDefault();
   const { email, message } = e.target.elements;
   if (!(email.value && message.value)) {
-    return console.log('uzupelnij pola');
+    return console.log('Uzupelnij puste pola/e');
   }
 
   console.log({ email: email.value, message: message.value });
@@ -30,9 +30,9 @@ const textarea = () => {
     return;
   }
 
-  const parsedDataForm = JSON.parse(savedDataForm);
+  const dataForm = JSON.parse(savedDataForm);
 
-  for (const [name, value] of Object.entries(parsedDataForm)) {
+  for (let [name, value] of Object.entries(dataForm)) {
     formRef.elements[name].value = value;
     formData[name] = value;
   }
